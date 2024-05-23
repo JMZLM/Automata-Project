@@ -79,9 +79,14 @@ def main():
         unsafe_allow_html=True
     )
 
-    # Handle page navigation based on session state
-    if st.session_state.url_hash == "cfg":
-        display_cfg_html()
+    if st.session_state.url:
+        url = st.session_state.url
+        if url.endswith("#cfg"):
+            display_cfg_html()
+
+
+
+
 
 
 
