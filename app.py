@@ -1,11 +1,27 @@
 import streamlit as st
 import utils
 
+# Function to display compiler content
+def display_compiler():
+    st.write("Compiler content goes here.")
+
 # Function to read and display cfg.html
 def display_cfg_html():
     with open("cfg.html", "r") as file:
         cfg_content = file.read()
     st.write(cfg_content, unsafe_allow_html=True)
+
+# Function to display PDA content
+def display_pda():
+    st.write("PDA content goes here.")
+
+# Function to display About content
+def display_about():
+    st.write("About content goes here.")
+
+# Function to display Manual content
+def display_manual():
+    st.write("Manual content goes here.")
 
 # Streamlit interface
 def main():
@@ -61,30 +77,18 @@ def main():
         unsafe_allow_html=True
     )
 
-    # JavaScript to handle page navigation
-    st.markdown(
-        """
-        <script>
-        function navigateTo(anchor) {
-            window.location.href = anchor;
-        }
-        </script>
-        """,
-        unsafe_allow_html=True
-    )
-
     # Content
     st.markdown(
         """
         <section class="container">
             <div class="nav">
                 <ul>
-                    <li><a style="color: #a33852" onclick="navigateTo('#')">COMPILER</a></li>
-                    <li><a style="cursor: pointer;" onclick="navigateTo('#cfg')">CFG</a></li>
-                    <li><a style="cursor: pointer;" onclick="navigateTo('#pda')">PDA</a></li>
-                    <li><a style="cursor: pointer;" onclick="navigateTo('#about')">ABOUT</a></li>
-                    <li><a style="cursor: pointer;" onclick="navigateTo('#manual')">MANUAL</a></li>
-                    <li style="float:right"><a class="active" onclick="navigateTo('#home')" style="cursor: pointer;">HOME</a></li>
+                    <li><a style="color: #a33852" onclick="showCompiler()">COMPILER</a></li>
+                    <li><a style="cursor: pointer;" onclick="showCFG()">CFG</a></li>
+                    <li><a style="cursor: pointer;" onclick="showPDA()">PDA</a></li>
+                    <li><a style="cursor: pointer;" onclick="showAbout()">ABOUT</a></li>
+                    <li><a style="cursor: pointer;" onclick="showManual()">MANUAL</a></li>
+                    <li style="float:right"><a class="active" onclick="showHome()" style="cursor: pointer;">HOME</a></li>
                 </ul>
             </div>
         </section>
@@ -92,11 +96,46 @@ def main():
         unsafe_allow_html=True
     )
 
-    # Handle page navigation based on URL hash
-    if st.session_state.url:
-        url = st.session_state.url
-        if url.endswith("#cfg"):
-            display_cfg_html()
+    # JavaScript functions to handle navigation
+    st.markdown(
+        """
+        <script>
+        function showCompiler() {
+            const container = document.getElementById("content-container");
+            container.innerHTML = "<h1>Compiler content goes here.</h1>";
+        }
+
+        function showCFG() {
+            const container = document.getElementById("content-container");
+            container.innerHTML = "<h1>CFG content goes here.</h1>";
+        }
+
+        function showPDA() {
+            const container = document.getElementById("content-container");
+            container.innerHTML = "<h1>PDA content goes here.</h1>";
+        }
+
+        function showAbout() {
+            const container = document.getElementById("content-container");
+            container.innerHTML = "<h1>About content goes here.</h1>";
+        }
+
+        function showManual() {
+            const container = document.getElementById("content-container");
+            container.innerHTML = "<h1>Manual content goes here.</h1>";
+        }
+
+        function showHome() {
+            const container = document.getElementById("content-container");
+            container.innerHTML = "";
+        }
+        </script>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Container to display content
+    st.markdown('<div id="content-container"></div>', unsafe_allow_html=True)
 
 
 
