@@ -6,7 +6,7 @@ import utils
 def main():
     # Set page title and icon
     st.set_page_config(
-        page_title="Automata Project",
+        page_title="G1 Compiler",
         page_icon="🔀"
     )
 
@@ -37,7 +37,7 @@ def main():
         }
         .nav li a {
             display: block;
-            color: white;
+            color: #f4c2ab;
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
@@ -46,7 +46,7 @@ def main():
             background-color: #DE739E;
         }
         .nav li a.active {
-            background-color: #DE739E;
+            background-color: #a33852;
         }
         .nav li:last-child {
             float: right;
@@ -62,11 +62,12 @@ def main():
         <section class="container">
             <div class="nav">
                 <ul>
-                  <li><a style="color: #DE739E" href="#">DFA</a></li>
-                  <li><a href="#">CFG/PDA</a></li>
-                  <li><a href="#">ABOUT</a></li>
-                  <li><a href="http://localhost:63342/automata/MANUAL.html">MANUAL</a></li>
-                  <li style="float:right"><a class="active" href="http://localhost:63342/automata/home.html">HOME</a></li>
+                    <li><a style="color: #a33852" href="#">COMPILER</a></li>
+                    <li><a href="cfg.html">CFG</a></li>
+                    <li><a href="http://localhost:63342/automata/pda.html">PDA</a></li>
+                    <li><a href="http://localhost:63342/automata/about.html">ABOUT</a></li>
+                    <li><a href="http://localhost:63342/automata/manual.html">MANUAL</a></li>
+                    <li style="float:right"><a class="active" href="http://localhost:63342/automata/home.html">HOME</a></li>
                 </ul>
             </div>
         </section>
@@ -107,7 +108,7 @@ def main():
 
     # Code block for title and description
     with title_con:
-        st.title("Automata Project")
+        st.title("G1 Compiler")
         st.markdown(
             '''
             This project is a web application that will convert the given regular expressions below to Deterministic Finite Automata (DFA), 
