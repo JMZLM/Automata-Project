@@ -67,7 +67,7 @@ def main():
             <div class="nav">
                 <ul>
                     <li><a style="color: #a33852" href="#">COMPILER</a></li>
-                    <li><a href="cfg">CFG</a></li>
+                    <li><a href="#cfg">CFG</a></li>
                     <li><a href="http://localhost:63342/automata/pda.html">PDA</a></li>
                     <li><a href="http://localhost:63342/automata/about.html">ABOUT</a></li>
                     <li><a href="http://localhost:63342/automata/manual.html">MANUAL</a></li>
@@ -80,10 +80,7 @@ def main():
     )
 
     # Handle page navigation based on session state
-    if "page" not in st.session_state:
-        st.session_state.page = "home"
-
-    if st.session_state.page == "cfg":
+    if st.session_state.url_hash == "cfg":
         display_cfg_html()
 
 
