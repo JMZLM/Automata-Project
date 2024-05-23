@@ -63,7 +63,7 @@ def main():
             <div class="nav">
                 <ul>
                     <li><a style="color: #a33852" href="#">COMPILER</a></li>
-                    <li><a href='"./cfg.html"'>CFG</a></li>
+                    <li><a href="./cfg.html">CFG</a></li>
                     <li><a href="http://localhost:63342/automata/pda.html">PDA</a></li>
                     <li><a href="http://localhost:63342/automata/about.html">ABOUT</a></li>
                     <li><a href="http://localhost:63342/automata/manual.html">MANUAL</a></li>
