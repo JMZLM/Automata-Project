@@ -79,10 +79,10 @@ def main():
         unsafe_allow_html=True
     )
 
-    if st.session_state.url:
-        url = st.session_state.url
-        if url.endswith("#cfg"):
-            display_cfg_html()
+    nav_selection = st.sidebar.radio("Navigation", ["HOME", "CFG", "PDA", "ABOUT", "MANUAL"])
+
+    if nav_selection == "CFG":
+        display_cfg_html()
 
 
 
