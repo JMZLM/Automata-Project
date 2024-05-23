@@ -1,7 +1,11 @@
 import streamlit as st
 import utils
 
-
+# Function to read and display cfg.html
+def display_cfg_html():
+    with open("cfg.html", "r") as file:
+        cfg_content = file.read()
+    st.write(cfg_content, unsafe_allow_html=True)
 # Streamlit interface
 def main():
     # Set page title and icon
@@ -63,7 +67,7 @@ def main():
             <div class="nav">
                 <ul>
                     <li><a style="color: #a33852" href="#">COMPILER</a></li>
-                    <li><a href="./cfg.html">CFG</a></li>
+                    <li><a href="cfg">CFG</a></li>
                     <li><a href="http://localhost:63342/automata/pda.html">PDA</a></li>
                     <li><a href="http://localhost:63342/automata/about.html">ABOUT</a></li>
                     <li><a href="http://localhost:63342/automata/manual.html">MANUAL</a></li>
@@ -74,6 +78,15 @@ def main():
         """,
         unsafe_allow_html=True
     )
+
+    # Handle page navigation based on session state
+    if "page" not in st.session_state:
+        st.session_state.page = "home"
+
+    if st.session_state.page == "cfg":
+        display_cfg_html()
+
+
 
     # Initialize streamlit session state values
     if len(st.session_state) == 0:
