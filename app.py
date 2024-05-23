@@ -1,33 +1,12 @@
 import streamlit as st
 import utils
 
-# Function to display compiler content
-def display_compiler():
-    st.write("Compiler content goes here.")
-
-# Function to read and display cfg.html
-def display_cfg_html():
-    with open("cfg.html", "r") as file:
-        cfg_content = file.read()
-    st.write(cfg_content, unsafe_allow_html=True)
-
-# Function to display PDA content
-def display_pda():
-    st.write("PDA content goes here.")
-
-# Function to display About content
-def display_about():
-    st.write("About content goes here.")
-
-# Function to display Manual content
-def display_manual():
-    st.write("Manual content goes here.")
 
 # Streamlit interface
 def main():
     # Set page title and icon
     st.set_page_config(
-        page_title="G1 Compiler",
+        page_title="Automata Project",
         page_icon="🔀"
     )
 
@@ -58,7 +37,7 @@ def main():
         }
         .nav li a {
             display: block;
-            color: #f4c2ab;
+            color: white;
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
@@ -67,7 +46,7 @@ def main():
             background-color: #DE739E;
         }
         .nav li a.active {
-            background-color: #a33852;
+            background-color: #DE739E;
         }
         .nav li:last-child {
             float: right;
@@ -83,12 +62,11 @@ def main():
         <section class="container">
             <div class="nav">
                 <ul>
-                    <li><a style="color: #a33852" onclick="showCompiler()">COMPILER</a></li>
-                    <li><a style="cursor: pointer;" onclick="showCFG()">CFG</a></li>
-                    <li><a style="cursor: pointer;" onclick="showPDA()">PDA</a></li>
-                    <li><a style="cursor: pointer;" onclick="showAbout()">ABOUT</a></li>
-                    <li><a style="cursor: pointer;" onclick="showManual()">MANUAL</a></li>
-                    <li style="float:right"><a class="active" onclick="showHome()" style="cursor: pointer;">HOME</a></li>
+                  <li><a style="color: #DE739E" href="#">DFA</a></li>
+                  <li><a href="#">CFG/PDA</a></li>
+                  <li><a href="#">ABOUT</a></li>
+                  <li><a href="http://localhost:63342/automata/MANUAL.html">MANUAL</a></li>
+                  <li style="float:right"><a class="active" href="http://localhost:63342/automata/home.html">HOME</a></li>
                 </ul>
             </div>
         </section>
@@ -96,58 +74,11 @@ def main():
         unsafe_allow_html=True
     )
 
-    # JavaScript functions to handle navigation
-    st.markdown(
-        """
-        <script>
-        function showCompiler() {
-            const container = document.getElementById("content-container");
-            container.innerHTML = "<h1>Compiler content goes here.</h1>";
-        }
-
-        function showCFG() {
-            const container = document.getElementById("content-container");
-            container.innerHTML = "<h1>CFG content goes here.</h1>";
-        }
-
-        function showPDA() {
-            const container = document.getElementById("content-container");
-            container.innerHTML = "<h1>PDA content goes here.</h1>";
-        }
-
-        function showAbout() {
-            const container = document.getElementById("content-container");
-            container.innerHTML = "<h1>About content goes here.</h1>";
-        }
-
-        function showManual() {
-            const container = document.getElementById("content-container");
-            container.innerHTML = "<h1>Manual content goes here.</h1>";
-        }
-
-        function showHome() {
-            const container = document.getElementById("content-container");
-            container.innerHTML = "";
-        }
-        </script>
-        """,
-        unsafe_allow_html=True
-    )
-
-    # Container to display content
-    st.markdown('<div id="content-container"></div>', unsafe_allow_html=True)
-
-
-
-
-
-
-
     # Initialize streamlit session state values
     if len(st.session_state) == 0:
         st.session_state.disabled = True
         st.session_state.placeholder_text = ""
-    
+
     # Callback function for regex_input
     def regex_input_callbk():
         # Set disable for string_input and validate_button
@@ -155,18 +86,18 @@ def main():
             st.session_state.disabled = True
         else:
             st.session_state.disabled = False
-        
+
         # Set placeholder text for string_input
         if st.session_state.regex_input == utils.regex_options[1]:
             st.session_state.placeholder_text = "aabbaaababbaa"
         elif st.session_state.regex_input == utils.regex_options[2]:
             st.session_state.placeholder_text = "11100111"
         else:
-            st.session_state.placeholder_text = ""  
-        
+            st.session_state.placeholder_text = ""
+
         # Clear string_input
         st.session_state.string_input = ""
-    
+
 
     # Create container to group blocks of code
     title_con = st.container()
@@ -176,7 +107,7 @@ def main():
 
     # Code block for title and description
     with title_con:
-        st.title("G1 Compiler")
+        st.title("Automata Project")
         st.markdown(
             '''
             This project is a web application that will convert the given regular expressions below to Deterministic Finite Automata (DFA), 
@@ -200,7 +131,7 @@ def main():
             validity of the string by checking each state through an animation.
             '''
             )
-        
+
         # Select box input to select regex
         regex_input = st.selectbox(
             label = "Select a Regular Expression",
@@ -208,7 +139,7 @@ def main():
             key="regex_input",
             on_change=regex_input_callbk
         )
-        
+
         # Text input for string validation
         string_input = st.text_input(
             label = "Enter a string to check its validity for displayed DFA",
@@ -216,25 +147,25 @@ def main():
             disabled=st.session_state.disabled,
             placeholder=st.session_state.placeholder_text
         )
-        
+
         # Validate button to run string validation
         validate_button = st.button(
             label = "Validate",
             disabled=st.session_state.disabled
         )
-        
+
         # Output for regex_input, display dfa, cfg, and pda of selected regex
         if regex_input == utils.regex_options[1]:
-            current_dfa = utils.dfa_1            
+            current_dfa = utils.dfa_1
             st.write("**Deterministic Finite Automaton**")
             if not string_input:
                 dfa = utils.generate_dfa_visualization(current_dfa)
                 st.graphviz_chart(dfa)
 
 
-        
+
         elif regex_input == utils.regex_options[2]:
-            current_dfa = utils.dfa_2            
+            current_dfa = utils.dfa_2
             st.write("**Deterministic Finite Automaton**")
             if not string_input:
                 dfa = utils.generate_dfa_visualization(current_dfa)
@@ -249,11 +180,11 @@ def main():
             # Check if string_input is empty
             if len(string_input) == 0:
                 st.error("Empty/Invalid Input", icon="❌")
-            
+
             # Check if string_input has characters not in the alphabet of selected regex
             elif not all(char in current_dfa["alphabet"] for char in string_input):
                 st.error(f"String '{string_input}' contains invalid characters, please only use characters from the alphabet: {current_dfa['alphabet']}", icon="❌")
-            
+
             else:
                 st.write(f"Entered String: `{string_input}`")
                 is_valid, state_checks = utils.validate_dfa(current_dfa, string_input)
