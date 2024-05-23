@@ -6,6 +6,7 @@ def display_cfg_html():
     with open("cfg.html", "r") as file:
         cfg_content = file.read()
     st.write(cfg_content, unsafe_allow_html=True)
+
 # Streamlit interface
 def main():
     # Set page title and icon
@@ -60,18 +61,30 @@ def main():
         unsafe_allow_html=True
     )
 
+    # JavaScript to handle page navigation
+    st.markdown(
+        """
+        <script>
+        function navigateTo(anchor) {
+            window.location.href = anchor;
+        }
+        </script>
+        """,
+        unsafe_allow_html=True
+    )
+
     # Content
     st.markdown(
         """
         <section class="container">
             <div class="nav">
                 <ul>
-                    <li><a style="color: #a33852" href="#">COMPILER</a></li>
-                    <li><a href="#cfg">CFG</a></li>
-                    <li><a href="http://localhost:63342/automata/pda.html">PDA</a></li>
-                    <li><a href="http://localhost:63342/automata/about.html">ABOUT</a></li>
-                    <li><a href="http://localhost:63342/automata/manual.html">MANUAL</a></li>
-                    <li style="float:right"><a class="active" href="http://localhost:63342/automata/home.html">HOME</a></li>
+                    <li><a style="color: #a33852" onclick="navigateTo('#')">COMPILER</a></li>
+                    <li><a style="cursor: pointer;" onclick="navigateTo('#cfg')">CFG</a></li>
+                    <li><a style="cursor: pointer;" onclick="navigateTo('#pda')">PDA</a></li>
+                    <li><a style="cursor: pointer;" onclick="navigateTo('#about')">ABOUT</a></li>
+                    <li><a style="cursor: pointer;" onclick="navigateTo('#manual')">MANUAL</a></li>
+                    <li style="float:right"><a class="active" onclick="navigateTo('#home')" style="cursor: pointer;">HOME</a></li>
                 </ul>
             </div>
         </section>
@@ -79,6 +92,7 @@ def main():
         unsafe_allow_html=True
     )
 
+    # Handle page navigation based on URL hash
     if st.session_state.url:
         url = st.session_state.url
         if url.endswith("#cfg"):
