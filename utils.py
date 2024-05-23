@@ -5,68 +5,134 @@ import time
 # List of regular expressions assigned to our group
 regex_options = [
     "--- Select ---",
-    "(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*",
-    "((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*"
+    "(a+b)(a+b)*(aa+bb)(ab+ba)(a+b)*(aba+baa)",
+    "(11+00)(1+0)*(101+111+01)(00*+11*)(1+0+11)"
 ]
 
-# DFA for (aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*
+# DFA for (a+b)(a+b)*(aa+bb)(ab+ba)(a+b)*(aba+baa)
 dfa_1 = {
-    "states": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "T"],
+    "states": ["q0","q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "q16"],
     "alphabet": ["a", "b"],
-    "start_state": "q1",
-    "end_states": ["q10", "q11"],
+    "start_state": "q0",
+    "end_states": ["q14", "q16"],
     "transitions": {
+        ("q0", "a,b"): "q1",
+
         ("q1", "a"): "q2",
+        ("q1", "b"): "q3",
+
+        ("q2", "a"): "q4",
         ("q2", "b"): "q3",
-        ("q3", "a"): "q6",
-        ("q1", "b"): "q4",
-        ("q4", "a"): "q5",
-        ("q5", "b"): "q6",
-        ("q2", "a"): "T",
-        ("q3", "b"): "T",
-        ("q4", "b"): "T",
-        ("q5", "a"): "T",
-        ("T", "a,b"): "T",
-        ("q6", "a"): "q6",
-        ("q6", "b"): "q7",
-        ("q7", "b"): "q7",
-        ("q7", "a"): "q8",
-        ("q8", "a"): "q6",
-        ("q8", "b"): "q9",
+
+        ("q3", "a"): "q2",
+        ("q3", "b"): "q5",
+
+        ("q4", "a"): "q7",
+        ("q4", "b"): "q8",
+
+        ("q5", "a"): "q6",
+        ("q5", "b"): "q9",
+
+        ("q6", "a"): "q4",
+        ("q6", "b"): "q10",
+
+        ("q7", "a"): "q7",
+        ("q7", "b"): "q10",
+
+        ("q8", "a"): "q10",
+        ("q8", "b"): "q5",
+
         ("q9", "a"): "q10",
-        ("q9", "b"): "q11",
-        ("q10", "a"): "q10",
-        ("q11", "b"): "q11",
-        ("q10", "b"): "q11",
-        ("q11", "a"): "q10",
+        ("q9", "b"): "q9",
+
+        ("q10", "a"): "q11",
+        ("q10", "b"): "q12",
+
+        ("q11", "a"): "q11",
+        ("q11", "b"): "q13",
+
+        ("q12", "a"): "q15",
+        ("q12", "b"): "q12",
+
+        ("q13", "a"): "q14",
+        ("q13", "b"): "q12",
+
+        ("q14", "a"): "q16",
+        ("q14", "b"): "q13",
+
+        ("q15", "a"): "q16",
+        ("q15", "b"): "q13",
+
+        ("q16", "a"): "q11",
+        ("q16", "b"): "q13",
     }
 }
 
-# DFA for ((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*
+# DFA for (11+00)(1+0)*(101+111+01)(00*+11*)(1+0+11)
 dfa_2 = {
-    "states": ["q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8"],
-    "alphabet": ["1", "0"],
-    "start_state": "q1",
-    "end_states": ["q8"],
+    "states": ["q0", "q1", "q2", "q3", "q4", "q5", "q6", "q7", "q8", "q9", "q10", "q11", "q12", "q13", "q14", "q15", "q16"],
+    "alphabet": ["0", "1"],
+    "start_state": "q0",
+    "end_states": ["q11","q12", "q14", "q15", "q16"],
     "transitions": {
-        ("q1", "0,1"): "q2",
-        ("q2", "1"): "q3",
-        ("q2", "0"): "q4",
+        ("q0", "1"): "q1",
+        ("q0", "0"): "q2",
+
+        ("q1", "0"): "T",
+        ("q1", "1"): "q3",
+
+        ("T", "0,1"): "T",
+
+        ("q2", "1"): "T",
+        ("q2", "0"): "q3",
+
+        ("q3", "1"): "q4",
         ("q3", "0"): "q5",
-        ("q3", "1"): "q6",
-        ("q4", "1"): "q3",
-        ("q4", "0"): "q7",
-        ("q5", "1"): "q8",
-        ("q5", "0"): "q7",
+
+        ("q4", "0"): "q5",
+        ("q4", "1"): "q6",
+
+        ("q5", "0"): "q5",
+        ("q5", "1"): "q7",
+
         ("q6", "0"): "q5",
         ("q6", "1"): "q8",
-        ("q7", "1"): "q3",
-        ("q7", "0"): "q8",
-        ("q8", "0,1"): "q8",
+
+        ("q7", "0"): "q9",
+        ("q7", "1"): "q13",
+
+        ("q8", "1"): "q10",
+        ("q8", "0"): "q9",
+
+        ("q9", "0"): "q11",
+        ("q9", "1"): "q14",
+
+        ("q10", "0"): "q11",
+        ("q10", "1"): "q12",
+
+        ("q11", "0"): "q11",
+        ("q11", "1"): "q14",
+
+        ("q12", "0"): "q11",
+        ("q12", "1"): "q12",
+
+        ("q13", "0"): "q16",
+        ("q13", "1"): "q12",
+
+        ("q14", "1"): "q15",
+
+
+        ("q15", "0"): "q16",
+        ("q15", "1"): "q12",
+
+        ("q16", "0"): "q5",
+        ("q16", "1"): "q7",
+
+
     }
 }
 
-# CFG for (aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*
+# CFG for (a+b)(a+b)*(aa+bb)(ab+ba)(a+b)*(aba+baa)
 cfg_1 = '''
         S -> WXbabXYZ \n
         W -> aba | bab \n
@@ -75,7 +141,7 @@ cfg_1 = '''
         Z -> aZ | bZ | aaZ | ^
         '''
 
-# CFG for ((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*
+# CFG for (11+00)(1+0)*(101+111+01)(00*+11*)(1+0+11)
 cfg_2 = '''
         S -> WXYZ \n
         W -> 101 | 111 | 1 | 0 | 11 \n
@@ -84,7 +150,7 @@ cfg_2 = '''
         Z -> 1Z | 0Z | ^
         '''
 
-# PDA for (aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*
+# PDA for (a+b)(a+b)*(aa+bb)(ab+ba)(a+b)*(aba+baa)
 pda_1 = {
     "states": ["Start", "Read1", "Read2", "Read3", "Read4", "Read5", "Read6", "Read7", 
                "Read8", "Read9", "Read10", "Read11", "Read12", "Read13", "Accept1", "Accept2"],
@@ -120,7 +186,7 @@ pda_1 = {
     }
 }
 
-# PDA for ((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*
+# PDA for (11+00)(1+0)*(101+111+01)(00*+11*)(1+0+11)
 pda_2 = {
     "states": ["Start", "Read1", "Read2", "Read3", "Read4", "Read5", "Read6", "Read7", "Read8", "Accept"],
     "alphabet": ["1", "0"],
@@ -136,9 +202,9 @@ pda_2 = {
         ("Read3", "0"): "Read5",
         ("Read3", "1"): "Read4",
         ("Read4", "0"): "Read7",
-        ("Read4", "1"): "Read6",        
+        ("Read4", "1"): "Read6",
         ("Read6", "0"): "Read7",
-        ("Read5", "0"): "Read8",        
+        ("Read5", "0"): "Read8",
         ("Read5", "1"): "Read4",
         ("Read6", "1"): "Read8",
         ("Read7", "1"): "Read8",
@@ -233,7 +299,9 @@ def validate_dfa(dfa, string):
 # Generate validation animation
 def animate_dfa_validation(dfa, state_checks):
     dot = generate_dfa_visualization(dfa)  # Generate the DFA visualization
-    graph = st.graphviz_chart(dot.source, use_container_width=True) # Create a Streamlit Graphviz component
+    graph = st.graphviz_chart(dot.source, use_container_width=True)  # Create a Streamlit Graphviz component
+
+    previous_state = None  # Variable to keep track of the previously marked state
 
     # Iterate through each state in state_checks
     for state_check in state_checks:
@@ -241,18 +309,15 @@ def animate_dfa_validation(dfa, state_checks):
 
         time.sleep(1)  # Add a delay for visualization purposes
 
+        if previous_state:
+            dot.node(previous_state, style="filled", fillcolor="white")  # Reset previous state color to white
+
         if is_valid and state in dfa["end_states"]:
             dot.node(state, style="filled", fillcolor="green")  # Set end state to green
-            graph.graphviz_chart(dot.source, use_container_width=True) # Render the updated visualization
-
         elif not is_valid:
             dot.node(state, style="filled", fillcolor="red")  # Set invalid state to red
-            graph.graphviz_chart(dot.source, use_container_width=True) # Render the updated visualization
-
         else:
-            dot.node(state, style="filled", fillcolor="yellow") # Set state to yellow if True                
-            graph.graphviz_chart(dot.source, use_container_width=True) # Render the updated visualization
+            dot.node(state, style="filled", fillcolor="yellow")  # Set state to yellow if True
 
-            time.sleep(0.5)  # Add a delay for blink effect
-            dot.node(state, style="filled", fillcolor="white") # Set previous state back to white            
-            graph.graphviz_chart(dot.source, use_container_width=True) # Render the updated visualization
+        previous_state = state  # Update previous state
+        graph.graphviz_chart(dot.source, use_container_width=True)  # Render the updated visualization

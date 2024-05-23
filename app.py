@@ -6,8 +6,73 @@ import utils
 def main():
     # Set page title and icon
     st.set_page_config(
-        page_title="Automata Project",
+        page_title="G1 Compiler",
         page_icon="🔀"
+    )
+
+    st.markdown(
+        """
+        <style>
+        body {
+            font-family: 'Josefin Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            border-radius: 5px;
+        }
+        .nav li {
+            float: left;
+        }
+        .nav li a {
+            display: block;
+            color: #f4c2ab;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .nav li a:hover {
+            background-color: #DE739E;
+        }
+        .nav li a.active {
+            background-color: #a33852;
+        }
+        .nav li:last-child {
+            float: right;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Content
+    st.markdown(
+        """
+        <section class="container">
+            <div class="nav">
+                <ul>
+                  <li><a style="color: #a33852" href="http://localhost:8501">COMPILER</a></li>
+                  <li><a href="http://localhost:63342/automata/cfg.html">CFG</a></li>
+                  <li><a href="http://localhost:63342/automata/pda.html">PDA</a></li>
+                  <li><a href="http://localhost:63342/automata/about.html">ABOUT</a></li>
+                  <li><a href="http://localhost:63342/automata/manual.html">MANUAL</a></li>
+                  <li style="float:right"><a class="active" href="http://localhost:63342/automata/home.html">HOME</a></li>
+                </ul>
+            </div>
+        </section>
+        """,
+        unsafe_allow_html=True
     )
 
     # Initialize streamlit session state values
@@ -25,9 +90,9 @@ def main():
         
         # Set placeholder text for string_input
         if st.session_state.regex_input == utils.regex_options[1]:
-            st.session_state.placeholder_text = "abaababbab"
+            st.session_state.placeholder_text = "aabbaaababbaa"
         elif st.session_state.regex_input == utils.regex_options[2]:
-            st.session_state.placeholder_text = "101110001"
+            st.session_state.placeholder_text = "11100111"
         else:
             st.session_state.placeholder_text = ""  
         
@@ -39,30 +104,30 @@ def main():
     title_con = st.container()
     st.divider()
     regex_to_dfa_con = st.container()
-    cfg_and_pda_exp = st.expander("Show CFG and PDA Conversion")
+
 
     # Code block for title and description
     with title_con:
-        st.title("Automata Project")
+        st.title("G1 Compiler")
         st.markdown(
             '''
             This project is a web application that will convert the given regular expressions below to Deterministic Finite Automata (DFA), 
             Context-Free Grammars (CFG), and Pushdown Automata (PDA).
 
             **Regular Expressions**
-            1. `(aba+bab) (a+b)* (bab) (a+b)* (a+b+ab+ba) (a+b+aa)*`
-            2. `((101 + 111 + 101) + (1+0+11)) (1 + 0 + 01)* (111 + 000 + 101) (1+0)*`
+            1. `(a+b)(a+b)*(aa+bb)(ab+ba)(a+b)*(aba+baa)`
+            2. `(11+00)(1+0)*(101+111+01)(00*+11*)(1+0+11)`
 
             '''
             )
 
     # Code block for regex to dfa feature
     with regex_to_dfa_con:
-        st.subheader("Regex to DFA, CFG, & PDA")
+        st.subheader("Regex to DFA")
         st.markdown(
             '''
             1. Select a given Regex from the select box. The application will perform the conversion and display 
-            the resulting DFA on the screen. Its corresponding CFG and PDA will be displayed on an expander below the DFA.
+            the resulting DFA on the screen.
             2. Enter a string to check if it is valid for the DFA and then the program will check the 
             validity of the string by checking each state through an animation.
             '''
@@ -98,14 +163,7 @@ def main():
                 dfa = utils.generate_dfa_visualization(current_dfa)
                 st.graphviz_chart(dfa)
 
-            with cfg_and_pda_exp:
-                st.write("**Context Free Grammar**")
-                st.markdown(utils.cfg_1)
 
-                st.write("**Pushdown Automaton**")
-                current_pda = utils.pda_1
-                pda = utils.generate_pda_visualization(current_pda)
-                st.graphviz_chart(pda)
         
         elif regex_input == utils.regex_options[2]:
             current_dfa = utils.dfa_2            
@@ -114,14 +172,7 @@ def main():
                 dfa = utils.generate_dfa_visualization(current_dfa)
                 st.graphviz_chart(dfa)
 
-            with cfg_and_pda_exp:
-                st.write("**Context Free Grammar**")
-                st.markdown(utils.cfg_2)
-                
-                st.write("**Pushdown Automaton**")
-                current_pda = utils.pda_2
-                pda = utils.generate_pda_visualization(current_pda)
-                st.graphviz_chart(pda)
+
 
         # Output for string_input, play validation animation on displayed dfa
         if validate_button or string_input:
